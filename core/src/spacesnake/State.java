@@ -19,8 +19,8 @@ public class State implements Cloneable {
     // funny
     public State() {
         Map<Direction, Point> tmp = new EnumMap<Direction, Point>(Direction.class);
-        tmp.put(Direction.LEFT, new Point(1, 0));
-        tmp.put(Direction.RIGHT, new Point(-1, 0));
+        tmp.put(Direction.LEFT, new Point(-1, 0));
+        tmp.put(Direction.RIGHT, new Point(1, 0));
         tmp.put(Direction.UP, new Point(0, -1));
         tmp.put(Direction.DOWN, new Point(0, 1));
         directions = Collections.unmodifiableMap(tmp);
@@ -39,7 +39,7 @@ public class State implements Cloneable {
 
         coordinates = new ArrayDeque<Point>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < _snake.getLength(); i++) {
             coordinates.addLast(new Point(_field.getWidth() / 2 + i, _field.getHeigth() / 2));
         }
     }

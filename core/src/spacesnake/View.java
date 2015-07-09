@@ -11,15 +11,26 @@ public abstract class View {
     }
 
     private void drawSnake(Deque<Point> coordinates) {
+        int index = 0;
+        int color = 1;
         for (Point point : coordinates) {
-            System.out.println(point.x + " " + point.y);
-            drawBox(1, point.x, point.y);
+            if (index == 0) {
+                color = 2;
+            } else if (index == coordinates.size() - 1) {
+                color = 3;
+            } else {
+                color = 1;
+            }
+            drawBox(color, point.y, point.x);
+            index++;
         }
     }
 
     private void drawBoxes(final int[][] data, final int row, final int col) {
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
+                if (i == 2 && j == 10)
+                    data[i][j] = 4;
                 drawBox(data[i][j], row + i, col + j);
             }
         }

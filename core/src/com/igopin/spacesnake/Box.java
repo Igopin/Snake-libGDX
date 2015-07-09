@@ -4,25 +4,29 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Box extends Actor {
 
-    private int _height;
-    private int _width;
-    private Texture _texture;
+    static private int _height;
+    static private int _width;
+    static Sprite[] textures = new Sprite[5];
+    private Sprite _texture;
 
-    Texture[] textures = new Texture[7];
-    Color[] colors = { new Color(0x00FF0088), new Color(0xFF000088), Color.GREEN, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GREEN };
-
-    public Box(int colorIndex, int width, int heigth) {
+    static void init(final int width, final int height) {
         _width = width;
-        _height = heigth;
+        _height = height;
+        textures[0] = new Sprite(createTexture(new Color(0xFF000033)));
+        (textures[1] = new Sprite(new Texture("straight.png"))).setSize(_width, _height);
+        (textures[2] = new Sprite(new Texture("head.png"))).setSize(_width, _height);
+        textures[2].flip(false, true);
+        (textures[3] = new Sprite(new Texture("tail.png"))).setSize(_width, _height);
+        textures[3].flip(false, true);
+        (textures[4] = new Sprite(new Texture("asteriod.png"))).setSize(_width, _height);
+    }
 
-        for (int i = 0; i < colors.length; i++) {
-            textures[i] = createTexture(colors[i]);
-        }
-
+    public Box(int colorIndex) {
         _texture = textures[colorIndex];
     }
 
@@ -38,16 +42,12 @@ public class Box extends Actor {
         return _width;
     }
 
-    public void setSize(final int width, final int height) {
-        _width = width;
-        _height = height;
-        redrawTexrureArray();
+    public void setSize(int w, int h) {
+        _width = w;
+        _height = h;
     }
 
-    private void redrawTexrureArray() {
-    }
-
-    private Texture createTexture(Color color) {
+    private static Texture createTexture(Color color) {
         Pixmap image = new Pixmap(_width, _height, Pixmap.Format.RGBA8888);
 
         image.setColor(color);
@@ -59,8 +59,7 @@ public class Box extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(_texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(), _texture
-                .getWidth(), _texture.getHeight(), this.getScaleX(), this.getScaleY(), this
-                .getRotation(), 0, 0, _texture.getWidth(), _texture.getHeight(), false, false);
+        _texture.setPosition(this.getX(), this.getY());
+        _texture.draw(batch);
     }
 }
