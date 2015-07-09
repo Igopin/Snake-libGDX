@@ -13,7 +13,7 @@ public abstract class View {
     private void drawSnake(Deque<Point> coordinates) {
         for (Point point : coordinates) {
             System.out.println(point.x + " " + point.y);
-            drawBox(1, point.x, point.y);
+            drawBox(1, point.y, point.x);
         }
     }
 

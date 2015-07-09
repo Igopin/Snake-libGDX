@@ -39,8 +39,13 @@ public class Logic {
     }
 
     public boolean move() {
+        Iterator it = _state.coordinates.iterator();
+        Point head = (Point) it.next();
+
         Point dir = _state.directions.get(_state.dir);
-        Point head = _state.coordinates.getFirst();
+
+        Point prev = new Point();
+        prev.setLocation(head);
 
         head.translate(dir.x, dir.y);
         if (head.x >= _state._field.getWidth())
@@ -53,15 +58,9 @@ public class Logic {
         if (head.y < 0)
             head.y = _state._field.getHeigth() - 1;
 
-        System.out.println(_state.dir);
-
-        Iterator it = _state.coordinates.iterator();
-        Point prev = new Point();
-        prev.setLocation(head);
-
+        Point tmp = new Point();
         while (it.hasNext()) {
             Point cur = (Point) it.next();
-            Point tmp = new Point();
 
             tmp.setLocation(cur);
             cur.setLocation(prev);
