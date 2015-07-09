@@ -12,11 +12,13 @@ public class Model {
     List<ModelListener> _listeners = new ArrayList<ModelListener>();
 
     public Model() {
-        // Field field = new Field(COLUMNS, ROWS);
-        // State state = new State();
-        // state.setField(field);
-        // state.setSnake(Snake.START_SNAKE);
-        // _logic = new Logic(state);
+        Field field = new Field(COLUMNS, ROWS);
+        State state = new State();
+        state.setField(field);
+        state.setSnake(Snake.START_SNAKE);
+        state.dir = Direction.RIGHT;
+        _logic = new Logic(state);
+        fireChangeEvent();
     }
 
     public void addListener(final ModelListener listener) {
@@ -51,4 +53,14 @@ public class Model {
         }
     }
 
+    public void moveUp() {
+        if (_logic.moveUp()) {
+            fireChangeEvent();
+        }
+    }
+
+    public void move() {
+        _logic.move();
+        fireChangeEvent();
+    }
 }

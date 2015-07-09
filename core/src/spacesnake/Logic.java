@@ -14,7 +14,9 @@ public class Logic {
     private boolean moveTowards(Direction newDir, Direction oppositeDir) {
         boolean res = false;
         if (_state.dir != oppositeDir) {
+            System.out.println("NewDir: " + newDir);
             _state.dir = newDir;
+            System.out.println("NewState: " + _state.dir);
             res = true;
         }
         return res;
@@ -41,6 +43,17 @@ public class Logic {
         Point head = _state.coordinates.getFirst();
 
         head.translate(dir.x, dir.y);
+        if (head.x >= _state._field.getWidth())
+            head.x = 0;
+        if (head.x < 0)
+            head.x = _state._field.getWidth() - 1;
+
+        if (head.y >= _state._field.getHeigth())
+            head.y = 0;
+        if (head.y < 0)
+            head.y = _state._field.getHeigth() - 1;
+
+        System.out.println(_state.dir);
 
         Iterator it = _state.coordinates.iterator();
         Point prev = new Point();

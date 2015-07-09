@@ -9,9 +9,8 @@ public class Controller implements ModelListener {
         _view = view;
     }
 
-    @Override
-    public void onChange(State state) {
-        _view.draw(state);
+    public void setModel(final Model model) {
+        _model = model;
     }
 
     public void moveLeft() {
@@ -22,12 +21,20 @@ public class Controller implements ModelListener {
         _model.moveRight();
     }
 
+    public void moveUp() {
+        _model.moveUp();
+    }
+
     public void moveDown() {
         _model.moveDown();
     }
 
-    public void setModel(final Model model) {
-        _model = model;
+    public void move() {
+        _model.move();
     }
 
+    @Override
+    public void onChange(State state) {
+        _view.draw(state);
+    }
 }
