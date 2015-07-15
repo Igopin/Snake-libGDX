@@ -20,6 +20,6 @@ public class SpaceSnake extends Game {
 
     @Override
     public void resize(int width, int height) {
-        _background.setSize(width, height);
+        // all actors resize with window
     }
 }

@@ -40,7 +40,7 @@ public class State implements Cloneable {
         coordinates = new ArrayDeque<Point>();
 
         for (int i = 0; i < _snake.getLength(); i++) {
-            coordinates.addLast(new Point(_field.getWidth() / 2 + i, _field.getHeigth() / 2));
+            coordinates.addLast(new Point(_field.getWidth() / 2, _field.getHeigth() / 2 - i));
         }
     }
 

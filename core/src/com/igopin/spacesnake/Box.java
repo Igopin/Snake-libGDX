@@ -1,33 +1,45 @@
 package com.igopin.spacesnake;
 
+import spacesnake.Direction;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Box extends Actor {
 
-    private int _height;
-    private int _width;
-    private Texture _texture;
+    static private int _height;
+    static private int _width;
+    static final Sprite[] sprites = { null, new Sprite(new Texture("straight.png")), new Sprite(new Texture("head.png")), new Sprite(new Texture("turn.png")), new Sprite(new Texture("tail.png")), new Sprite(new Texture("asteroid.png")) };
 
-    Texture[] textures = new Texture[7];
-    Color[] colors = { new Color(0x00FF0088), new Color(0xFF000088), Color.GREEN, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.GREEN };
+    private Sprite _sprite;
+    private Direction _originalDirection, _textureDirection;
 
-    public Box(int colorIndex, int width, int heigth) {
+    static void init(final int width, final int height) {
         _width = width;
-        _height = heigth;
+        _height = height;
 
-        for (int i = 0; i < colors.length; i++) {
-            textures[i] = createTexture(colors[i]);
+        sprites[0] = new Sprite(createTexture(new Color(0xFF000000)));
+        for (int i = 1; i < sprites.length; i++) {
+            sprites[i].setSize(_width, _height);
+            sprites[i].setOriginCenter();
         }
+    }
 
-        _texture = textures[colorIndex];
+    public Box(int colorIndex, Direction originalDir) {
+        _originalDirection = _textureDirection = originalDir;
+        _sprite = sprites[colorIndex];
     }
 
     public void setColor(final int colorIndex) {
-        _texture = textures[colorIndex];
+        _sprite = sprites[colorIndex];
+    }
+
+    public void setTextureDirection(Direction direction) {
+        _textureDirection = direction;
     }
 
     public int getBoxHeight() {
@@ -38,16 +50,12 @@ public class Box extends Actor {
         return _width;
     }
 
-    public void setSize(final int width, final int height) {
-        _width = width;
-        _height = height;
-        redrawTexrureArray();
+    public void setSize(int w, int h) {
+        _width = w;
+        _height = h;
     }
 
-    private void redrawTexrureArray() {
-    }
-
-    private Texture createTexture(Color color) {
+    private static Texture createTexture(Color color) {
         Pixmap image = new Pixmap(_width, _height, Pixmap.Format.RGBA8888);
 
         image.setColor(color);
@@ -59,8 +67,29 @@ public class Box extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(_texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(), _texture
-                .getWidth(), _texture.getHeight(), this.getScaleX(), this.getScaleY(), this
-                .getRotation(), 0, 0, _texture.getWidth(), _texture.getHeight(), false, false);
+        float rotateAngle = 0;
+
+        _sprite.setPosition(this.getX(), this.getY());
+
+        if (_originalDirection == Direction.DOWN) {
+            switch (_textureDirection) {
+            case LEFT:
+                rotateAngle = 90;
+                break;
+            case RIGHT:
+                rotateAngle = -90;
+                break;
+            case DOWN:
+                rotateAngle = 0;
+                break;
+            case UP:
+                rotateAngle = 180;
+                break;
+            }
+        }
+
+        _sprite.rotate(rotateAngle);
+        _sprite.draw(batch);
+        _sprite.rotate(-rotateAngle);
     }
 }

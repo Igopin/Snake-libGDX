@@ -1,6 +1,7 @@
 package com.igopin.spacesnake;
 
 import spacesnake.Controller;
+import spacesnake.Direction;
 import spacesnake.Model;
 import spacesnake.View;
 
@@ -30,20 +31,25 @@ public class SnakeStage extends Stage {
         View view = new View() {
             private Box[][] _boxes = new Box[Model.ROWS][Model.COLUMNS];
 
-            @Override
-            protected void drawBox(int color, int row, int col) {
+            {
                 int height = Gdx.graphics.getHeight();
                 int width = Gdx.graphics.getWidth();
+                System.out.println(width / Model.COLUMNS + " " + height / Model.ROWS);
+                Box.init(width / Model.COLUMNS, height / Model.ROWS);
+            }
 
+            @Override
+            protected void drawBox(int row, int col, int color, Direction textureDir) {
                 if (_boxes[row][col] == null) {
-                    Box box = new Box(color, width / Model.COLUMNS, height / Model.ROWS);
+                    Box box = new Box(color, Direction.DOWN);
                     _boxes[row][col] = box;
+
                     box.setBounds(col * box.getBoxWidth(), row * box.getBoxHeight(), box
                             .getBoxWidth(), box.getBoxHeight());
-
                     SnakeStage.this.addActor(box);
                 }
-                _boxes[row][col].setColor(color + 1);
+                _boxes[row][col].setColor(color);
+                _boxes[row][col].setTextureDirection(textureDir);
             }
         };
 
@@ -55,7 +61,7 @@ public class SnakeStage extends Stage {
             public void run() {
                 controller.move();
             }
-        }, .2f, .2f);
+        }, .3f, .3f);
 
         Gdx.input.setInputProcessor(this);
         addListener(new InputListener() {

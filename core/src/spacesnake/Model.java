@@ -16,7 +16,7 @@ public class Model {
         State state = new State();
         state.setField(field);
         state.setSnake(Snake.START_SNAKE);
-        state.dir = Direction.RIGHT;
+        state.dir = Direction.DOWN;
         _logic = new Logic(state);
         fireChangeEvent();
     }
@@ -37,25 +37,21 @@ public class Model {
 
     public void moveLeft() {
         if (_logic.moveLeft()) {
-            fireChangeEvent();
         }
     }
 
     public void moveRight() {
         if (_logic.moveRight()) {
-            fireChangeEvent();
         }
     }
 
     public void moveDown() {
         if (_logic.moveDown()) {
-            fireChangeEvent();
         }
     }
 
     public void moveUp() {
         if (_logic.moveUp()) {
-            fireChangeEvent();
         }
     }
 
