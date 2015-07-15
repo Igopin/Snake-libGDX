@@ -1,6 +1,7 @@
 package com.igopin.spacesnake;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -15,7 +16,7 @@ public class FieldScreen implements Screen {
 
     @Override
     public void show() {
-        _stage = new SnakeStage();
+        _stage = new SnakeStage(_game);
         _stage.init();
 
         _stage.addActor(_game._background);
@@ -25,6 +26,10 @@ public class FieldScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            _game.setScreen(_game._startScreen);
+        }
 
         _stage.act(delta);
         _stage.draw();

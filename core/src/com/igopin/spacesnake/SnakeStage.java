@@ -16,7 +16,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class SnakeStage extends Stage {
 
-    public SnakeStage() {
+    SpaceSnake _game;
+
+    public SnakeStage(final SpaceSnake game) {
+        _game = game;
+
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(true);
         setViewport(new ScreenViewport(camera));
@@ -60,6 +64,10 @@ public class SnakeStage extends Stage {
             @Override
             public void run() {
                 controller.move();
+                if (controller.isGameOver()) {
+                    controller.reset();
+                    _game.setScreen(_game._startScreen);
+                }
             }
         }, .3f, .3f);
 
@@ -86,5 +94,34 @@ public class SnakeStage extends Stage {
                 return true;
             }
         });
+
+        /*
+         * addListener(new GestureListener() {
+         * 
+         * @Override public boolean touchDown(float x, float y, int pointer, int
+         * button) { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean tap(float x, float y, int count, int button)
+         * { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean longPress(float x, float y) { // TODO
+         * Auto-generated method stub return false; }
+         * 
+         * @Override public boolean fling(float velocityX, float velocityY, int
+         * button) { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean pan(float x, float y, float deltaX, float
+         * deltaY) { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean panStop(float x, float y, int pointer, int
+         * button) { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean zoom(float initialDistance, float distance)
+         * { // TODO Auto-generated method stub return false; }
+         * 
+         * @Override public boolean pinch(Vector2 initialPointer1, Vector2
+         * initialPointer2, Vector2 pointer1, Vector2 pointer2) { // TODO
+         * Auto-generated method stub return false; } });
+         */
     }
 }

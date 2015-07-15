@@ -33,6 +33,14 @@ public class Controller implements ModelListener {
         _model.move();
     }
 
+    public boolean isGameOver() {
+        return _model.isGameOver();
+    }
+
+    public void reset() {
+        _model.reset();
+    }
+
     @Override
     public void onChange(State state) {
         _view.draw(state);

@@ -13,6 +13,11 @@ public class Model {
     List<ModelListener> _listeners = new ArrayList<ModelListener>();
 
     public Model() {
+        init();
+        fireChangeEvent();
+    }
+
+    private void init() {
         Field field = new Field(COLUMNS, ROWS);
         State state = new State();
         state.setField(field);
@@ -22,7 +27,6 @@ public class Model {
         Random rnd = new Random();
         state.food.setLocation(rnd.nextInt(COLUMNS), rnd.nextInt(ROWS));
         _logic = new Logic(state);
-        fireChangeEvent();
     }
 
     public void addListener(final ModelListener listener) {
@@ -60,7 +64,17 @@ public class Model {
     }
 
     public void move() {
-        _logic.move();
-        fireChangeEvent();
+        if (_logic.move()) {
+            fireChangeEvent();
+        }
     }
+
+    public boolean isGameOver() {
+        return _logic.isGameOver();
+    }
+
+    public void reset() {
+        init();
+    }
+
 }

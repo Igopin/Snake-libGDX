@@ -7,18 +7,21 @@ import java.util.Random;
 public class Logic {
 
     private State _state;
+    private boolean isChanged;
+    private boolean isGameOver;
 
     public Logic(final State state) {
         _state = state;
+        isChanged = true;
+        isGameOver = false;
     }
 
     private boolean moveTowards(Direction newDir, Direction oppositeDir) {
         boolean res = false;
-        if (_state.dir != oppositeDir) {
-            System.out.println("NewDir: " + newDir);
+        if (_state.dir != oppositeDir && !isChanged) {
             _state.dir = newDir;
-            System.out.println("NewState: " + _state.dir);
             res = true;
+            isChanged = true;
         }
         return res;
     }
@@ -40,8 +43,14 @@ public class Logic {
     }
 
     public boolean move() {
+        isChanged = false;
         Point head = _state.coordinates.getFirst();
         Point dir = _state.directions.get(_state.dir);
+
+        if (isPointOnSnake(new Point(head.x + dir.x, head.y + dir.y))) {
+            isGameOver = true;
+            return false;
+        }
 
         Point prev = new Point(head);
 
@@ -61,8 +70,10 @@ public class Logic {
             _state.coordinates.addFirst(new Point(head));
             Random rnd = new Random();
 
-            _state.food.setLocation(rnd.nextInt(_state._field.getWidth()), rnd
-                    .nextInt(_state._field.getHeigth()));
+            do {
+                _state.food.setLocation(rnd.nextInt(_state._field.getWidth()), rnd
+                        .nextInt(_state._field.getHeigth()));
+            } while (isPointOnSnake(_state.food));
 
             head.setLocation(prev);
             return true;
@@ -80,6 +91,22 @@ public class Logic {
             prev.setLocation(tmp);
         }
         return true;
+    }
+
+    private boolean isPointOnSnake(Point point) {
+        boolean res = false;
+
+        for (Point snakePoint : _state.coordinates) {
+            if (point.x == snakePoint.x && point.y == snakePoint.y) {
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
     }
 
     public State getState() {

@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 
 public class SpaceSnake extends Game {
 
-    FieldScreen _fieldscreen;
-    StartScreen _startscreen;
+    FieldScreen _fieldScreen;
+    StartScreen _startScreen;
     public Background _background;
 
     @Override
@@ -13,8 +13,9 @@ public class SpaceSnake extends Game {
         _background = new Background();
         _background.setPosition(0, 0);
 
-        _fieldscreen = new FieldScreen(this);
-        setScreen(_fieldscreen);
+        _fieldScreen = new FieldScreen(this);
+        _startScreen = new StartScreen(this);
+        setScreen(_startScreen);
 
     }
 
