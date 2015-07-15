@@ -2,6 +2,7 @@ package spacesnake;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Model {
 
@@ -17,6 +18,9 @@ public class Model {
         state.setField(field);
         state.setSnake(Snake.START_SNAKE);
         state.dir = Direction.DOWN;
+
+        Random rnd = new Random();
+        state.food.setLocation(rnd.nextInt(COLUMNS), rnd.nextInt(ROWS));
         _logic = new Logic(state);
         fireChangeEvent();
     }

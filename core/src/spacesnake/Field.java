@@ -2,21 +2,19 @@ package spacesnake;
 
 public class Field {
 
-    int[][] _data;
+    int _width;
+    int _height;
 
     public Field(final int width, final int height) {
-        _data = new int[height][width];
+        _width = width;
+        _height = height;
     }
 
     public int getWidth() {
-        return _data[0].length;
+        return _width;
     }
 
     public int getHeigth() {
-        return _data.length;
-    }
-
-    public int[][] getData() {
-        return _data;
+        return _height;
     }
 }

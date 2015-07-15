@@ -2,6 +2,7 @@ package spacesnake;
 
 import java.awt.Point;
 import java.util.Iterator;
+import java.util.Random;
 
 public class Logic {
 
@@ -39,13 +40,10 @@ public class Logic {
     }
 
     public boolean move() {
-        Iterator it = _state.coordinates.iterator();
-        Point head = (Point) it.next();
-
+        Point head = _state.coordinates.getFirst();
         Point dir = _state.directions.get(_state.dir);
 
-        Point prev = new Point();
-        prev.setLocation(head);
+        Point prev = new Point(head);
 
         head.translate(dir.x, dir.y);
         if (head.x >= _state._field.getWidth())
@@ -57,6 +55,21 @@ public class Logic {
             head.y = 0;
         if (head.y < 0)
             head.y = _state._field.getHeigth() - 1;
+
+        if (head.x == _state.food.x && head.y == _state.food.y) {
+
+            _state.coordinates.addFirst(new Point(head));
+            Random rnd = new Random();
+
+            _state.food.setLocation(rnd.nextInt(_state._field.getWidth()), rnd
+                    .nextInt(_state._field.getHeigth()));
+
+            head.setLocation(prev);
+            return true;
+        }
+
+        Iterator it = _state.coordinates.iterator();
+        it.next();
 
         Point tmp = new Point();
         while (it.hasNext()) {

@@ -13,13 +13,18 @@ public abstract class View {
     static public int ASTEROID = 5;
 
     public void draw(final State state) {
-        drawField(state.getField().getData());
+        drawField(state.getField().getWidth(), state.getField().getHeigth());
         drawSnake(state.coordinates, state.dir);
+        drawFood(state.food);
     }
 
-    private void drawField(final int[][] data) {
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
+    private void drawFood(Point food) {
+        drawBox(food.y, food.x, ASTEROID, Direction.DOWN);
+    }
+
+    private void drawField(int width, int height) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 drawBox(i, j, FIELD, Direction.UP);
             }
         }

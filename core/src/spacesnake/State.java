@@ -16,6 +16,8 @@ public class State implements Cloneable {
     public Deque<Point> coordinates;
     public Direction dir;
 
+    Point food;
+
     // funny
     public State() {
         Map<Direction, Point> tmp = new EnumMap<Direction, Point>(Direction.class);
@@ -24,6 +26,7 @@ public class State implements Cloneable {
         tmp.put(Direction.UP, new Point(0, -1));
         tmp.put(Direction.DOWN, new Point(0, 1));
         directions = Collections.unmodifiableMap(tmp);
+        food = new Point();
     }
 
     public Field getField() {
