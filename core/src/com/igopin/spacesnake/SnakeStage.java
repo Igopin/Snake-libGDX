@@ -1,6 +1,7 @@
 package com.igopin.spacesnake;
 
 import spacesnake.Controller;
+import spacesnake.Direction;
 import spacesnake.Model;
 import spacesnake.View;
 
@@ -33,20 +34,22 @@ public class SnakeStage extends Stage {
             {
                 int height = Gdx.graphics.getHeight();
                 int width = Gdx.graphics.getWidth();
+                System.out.println(width / Model.COLUMNS + " " + height / Model.ROWS);
                 Box.init(width / Model.COLUMNS, height / Model.ROWS);
             }
 
             @Override
-            protected void drawBox(int color, int row, int col) {
+            protected void drawBox(int row, int col, int color, Direction textureDir) {
                 if (_boxes[row][col] == null) {
-                    Box box = new Box(color);
+                    Box box = new Box(color, Direction.DOWN);
                     _boxes[row][col] = box;
+
                     box.setBounds(col * box.getBoxWidth(), row * box.getBoxHeight(), box
                             .getBoxWidth(), box.getBoxHeight());
-
                     SnakeStage.this.addActor(box);
                 }
                 _boxes[row][col].setColor(color);
+                _boxes[row][col].setTextureDirection(textureDir);
             }
         };
 
